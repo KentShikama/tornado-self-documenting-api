@@ -31,8 +31,10 @@ def params(schema: Type[Schema]):
                 self.write_json(400, e.messages)
             except Exception as e:
                 self.write_json(400, str(e))
+        separator = "" if "---" in func.__doc__ else "---"
         doc_string = f"""
         {func.__doc__}
+        {separator}
         requestBody:
             description: {schema.__doc__}
             required: True
@@ -56,8 +58,10 @@ def success(schema: Type[Schema]):
                 self.write_json(400, errors)
             else:
                 self.write_json(200, result)
+        separator = "" if "---" in func.__doc__ else "---"
         doc_string = f"""
         {func.__doc__}
+        {separator}
         responses:
             200:
                 description: {schema.__doc__}

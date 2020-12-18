@@ -20,9 +20,7 @@ class MainHandler(BaseHandler):
     @success(FooSchema)
     async def get(self, foo_name):
         """
-        Demo endpoint
-        ---
-        description: Foo!
+        This endpoint is self-documenting!
         """
         if self.validated_params["foo_name"] == "Give me an error":
             raise HTTPError(404)
