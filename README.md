@@ -43,3 +43,7 @@ The OpenAPI spec is automatically generated on run.
 See https://gist.github.com/KentShikama/7a75ac91d7c5387b2002d30c3e66cee8 for 
 generated OpenAPI spec. Paste link into http://api.openapi-generator.tech/index.
 html or a different OpenAPI generator to view spec in HTML.
+
+## References
+
+- Starting point was https://github.com/juhoen/tornado-swagger-example
