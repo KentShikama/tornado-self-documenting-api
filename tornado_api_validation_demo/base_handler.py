@@ -20,6 +20,17 @@ class BaseHandler(RequestHandler):
         self.finish()
 
 
+def build_header(doc):
+    if "OpenAPI spec follows" in doc:
+        return doc
+    else:
+        return f"""
+        OpenAPI spec follows
+        ---
+        description: {doc.lstrip()}
+        """
+
+
 def params(schema: Type[Schema]):
     def decorator(func):
         @functools.wraps(func)
@@ -31,10 +42,9 @@ def params(schema: Type[Schema]):
                 self.write_json(400, e.messages)
             except Exception as e:
                 self.write_json(400, str(e))
-        separator = "" if "---" in func.__doc__ else "---"
+        header = build_header(func.__doc__)
         doc_string = f"""
-        {func.__doc__}
-        {separator}
+        {header}
         requestBody:
             description: {schema.__doc__}
             required: True
@@ -58,10 +68,9 @@ def success(schema: Type[Schema]):
                 self.write_json(400, errors)
             else:
                 self.write_json(200, result)
-        separator = "" if "---" in func.__doc__ else "---"
+        header = build_header(func.__doc__)
         doc_string = f"""
-        {func.__doc__}
-        {separator}
+        {header}
         responses:
             200:
                 description: {schema.__doc__}
