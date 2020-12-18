@@ -24,9 +24,9 @@ class MainHandler(BaseHandler):
         ---
         description: Foo!
         """
-        if self.validated_body["foo_name"] == "Give me an error":
+        if self.validated_params["foo_name"] == "Give me an error":
             raise HTTPError(404)
-        elif self.validated_body["foo_name"] == "Give me another error":
+        elif self.validated_params["foo_name"] == "Give me another error":
             return {"Bad key": "Bad value"}
         else:
             return {"output": 5}

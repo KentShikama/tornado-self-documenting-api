@@ -11,7 +11,7 @@ class BaseHandler(RequestHandler):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.validated_body = {}
+        self.validated_params = {}
 
     def write_json(self, status, data):
         self.set_header("Content-Type", "application/json")
@@ -25,7 +25,7 @@ def params(schema: Type[Schema]):
         @functools.wraps(func)
         def add_validation_and_doc(self, *args, **kwargs):
             try:
-                self.validated_body = schema().loads(self.request.body)
+                self.validated_params = schema().loads(self.request.body)
                 return func(self, *args, **kwargs)
             except ValidationError as e:
                 self.write_json(400, e.messages)
