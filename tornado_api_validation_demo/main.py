@@ -30,9 +30,32 @@ class MainHandler(BaseHandler):
             return {"output": 5}
 
 
+class NoParams(BaseHandler):
+    @success(FooSchema)
+    async def get(self):
+        """
+        No params endpoint
+        """
+        return {"output": 5}
+
+
+class ManualWrite(BaseHandler):
+    @params(FooParameter)
+    async def get(self):
+        """
+        You can do it the old fashioned way too...
+        """
+        value = self.validated_params["foo_name"]
+        self.set_header("Content-Type", "application/json")
+        self.set_status(200)
+        self.write("{'output':" + value + "}")
+
+
 def make_app():
     urls = [
         (r"/([^/]+)", MainHandler),
+        (r"/noparams/?", NoParams),
+        (r"/manualwrite/?", ManualWrite),
     ]
     app = tornado.web.Application(urls)
     generate_openapi_json(handlers=urls, file_location="default.json")
