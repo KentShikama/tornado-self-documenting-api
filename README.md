@@ -4,6 +4,7 @@
 
 1. `pipenv install`
 2. `PYTHONPATH=. pipenv run python tornado_api_validation_demo/main.py`
+3. Navigate to http://localhost:8888/api/doc to see generated documentation
 
 ## Basic "Library" Use
 
@@ -35,14 +36,6 @@ class MainHandler(BaseHandler):
 Validated parameters are injected into `self.validated_params` (you can 
 still use `self.request.body` for unvalidated body/parameters). The return 
 value is validated and serialized into json output.
-
-## OpenAPI spec generation
-
-The OpenAPI spec is automatically generated on run.
-
-See https://gist.github.com/KentShikama/7a75ac91d7c5387b2002d30c3e66cee8 for 
-generated OpenAPI spec. Paste link into http://api.openapi-generator.tech/index.html or a different OpenAPI 
-generator to view spec in HTML.
 
 ## References
 

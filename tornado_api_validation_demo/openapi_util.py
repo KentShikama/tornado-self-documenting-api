@@ -20,4 +20,6 @@ def generate_openapi_json(handlers, file_location):
         except APISpecError:
             pass
     with open(file_location, "w", encoding="utf-8") as file:
+        spec_dict = spec.to_dict()
+        spec_dict["servers"] = []  # Swagger UI requires servers field
         json.dump(spec.to_dict(), file, indent=2)

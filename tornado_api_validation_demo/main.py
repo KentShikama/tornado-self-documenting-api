@@ -1,3 +1,5 @@
+from pathlib import Path
+
 import swagger_ui
 import tornado.ioloop
 from tornado.web import HTTPError
@@ -51,17 +53,21 @@ class ManualWrite(BaseHandler):
         self.write("{'output':" + value + "}")
 
 
+BASE_PATH = Path(__file__).parent
+SWAGGER_PATH = str(BASE_PATH.joinpath("swagger.json"))
+
+
 def make_app():
     urls = [
-        (r"/([^/]+)", MainHandler),
         (r"/noparams/?", NoParams),
         (r"/manualwrite/?", ManualWrite),
+        (r"/([^/]+)", MainHandler),
     ]
     app = tornado.web.Application(urls)
-    generate_openapi_json(handlers=urls, file_location="default.json")
+    generate_openapi_json(handlers=urls, file_location=SWAGGER_PATH)
     swagger_ui.tornado_api_doc(
         app,
-        config_path="default.json",
+        config_path=SWAGGER_PATH,
         title="Tornado self-documenting API validation demo",
     )
     return app
